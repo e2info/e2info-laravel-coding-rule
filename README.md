@@ -40,11 +40,6 @@ declare(strict_types=1);
         * phpStormの標準ルールとPSRで一部矛盾する部分はphpStormの標準ルールを優先します
     * とりあえず何も考えずにphpStormでフォーマットすれば基本OKのはず
     * CIが導入されているプロジェクトではCIで自動フォーマット
-
-### 方針
-
-* なるべく関数名にset/getを利用しない。ただし、インタフェースが明確的である場合のみ利用可能
-* 関数変数の名前は汎用的なものにしない(×getList、○getReservations)
 * 引数・戻り値の型が決まっている場合は定義する
 
 引数
@@ -62,13 +57,46 @@ function getUserID(){
 function getUserID() : int {
 ```
 
-* andと&&混在しそうなので&&に統一
+* and/&&は、&&に統一
 
 ```
 if(a and b)
 ↓
 if(a && b)
 ```
+
+### 方針
+
+#### レイヤー
+
+MVCで以下の構造
+
+* app
+    * Http
+        * Controllers
+* Models (*Entities)
+* Services (*Use Cases)
+
+*はクリーンアーキテクチャとのマッピング
+
+#### 実装方針
+
+* 関数名にset/getを利用しない。ただし、インタフェースが明示的である場合のみ利用可能
+* 関数変数の名前は汎用的なものにしない(×getList、○getReservations)
+* viewへの値の渡し方はwithで統一する(compactは禁止とする)
+
+```
+×
+return view('user.list', compact('users'));
+
+○
+return view('user.list')->with(['users' => $users]);
+```
+
+* 変数名***Data/***Listは限定的なスコープ内で気をつけて利用すること
+
+
+
 
 
 ![イーツー・インフォロゴ](https://raw.githubusercontent.com/e2info/e2info-warehouse/master/images/logo/logo100x100_transparent.png)
