@@ -82,7 +82,17 @@ MVCで以下の構造
 #### 実装方針
 
 * 関数名にset/getを利用しない。ただし、インタフェースが明示的である場合のみ利用可能
-* 関数変数の名前は汎用的なものにしない(×getList、○getReservations)
+
+* 関数/変数の名前は汎用的なものにしない
+
+```
+×
+function findList();
+
+○
+function findReservations();
+```
+
 * viewへの値の渡し方はwithで統一する(compactは禁止とする)
 
 ```
@@ -95,8 +105,59 @@ return view('user.list')->with(['users' => $users]);
 
 * 変数名***Data/***Listは限定的なスコープ内で気をつけて利用すること
 
+```
+×
+$resultData = $data->shutoku->shori();
+// （10行くらい略）
+// （10行くらい略）
+// （10行くらい略）
+// （10行くらい略）
+// （10行くらい略）
+// （10行くらい略）
 
+○
+$getReservations
+// （10行くらい略）
+// （10行くらい略）
+// （10行くらい略）
+// （10行くらい略）
+// $resultDataがなんのデータなのかよくわからない
 
+△
+// スコープが限定されているため理解できる
+$resultData = $data->shutoku->shori();
+// （1行なにかの処理）
+return $resultData;
 
+○
+$withdrawalUsers = $data->shutoku->shori();
+// （10行くらい略）
+// （10行くらい略）
+// （10行くらい略）
+// （10行くらい略）
+// （10行くらい略）
+// （10行くらい略）
+// （10行くらい略）
+// （10行くらい略）
+// （10行くらい略）
+// （10行くらい略）
+// $withdrawalUsers=退会済みということが変数名からわかる
+```
+
+* マジックナンバーは変数化して利用すること。何らかの理由がある場合、必ずコメントを書くこと。
+
+```
+// レアケース＆工数削減のため商品コード直書き（クライアント合意済み）
+$ignoreItemCodes = ['1001', '1002'];
+```
+
+* コード内にコメントを残さないこと。何らかの理由がある場合、必ずコメントを書くこと。
+
+```
+// 一時的なキャンペーン用のコードのため現在は無効。ただし、将来再利用する可能性があるためコメント化しておく
+/*
+$xxx = $nanika->no->shori();
+*/
+```
 
 ![イーツー・インフォロゴ](https://raw.githubusercontent.com/e2info/e2info-warehouse/master/images/logo/logo100x100_transparent.png)
