@@ -20,6 +20,10 @@ Laravelでのシステム開発時のコーディング規約と方針です
     * https://www.ipa.go.jp/security/vuln/websecurity.html
 * Laravelのドキュメント
     * https://laravel.com/docs/
+* うまくメソッド名を付けるための参考情報
+   * https://qiita.com/KeithYokoma/items/2193cf79ba76563e3db6
+* うまくクラス名を付けるための参考情報
+   * https://qiita.com/KeithYokoma/items/ee21fec6a3ebb5d1e9a8
 
 ### 規約
 
