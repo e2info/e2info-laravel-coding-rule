@@ -27,6 +27,8 @@ Laravelでのシステム開発時のコーディング規約と方針です
 
 ### 規約
 
+#### 原則
+
 * 基本的にPSRに準拠（ACCEPTED）
     * https://www.php-fig.org/psr/ 
 * 変数名、関数名はlowerCamelとする
@@ -44,16 +46,18 @@ declare(strict_types=1);
         * phpStormの標準ルールとPSRで一部矛盾する部分はphpStormの標準ルールを優先します
     * とりあえず何も考えずにphpStormでフォーマットすれば基本OKのはず
     * CIが導入されているプロジェクトではCIで自動フォーマット
-* 引数・戻り値の型が決まっている場合は定義する
 
-引数
+#### タイプヒント
+
+* 引数の型を定義する
+
 ```
 findCoupon($date) {
 ↓
 findCoupon(Carbon $date) {
 ```
 
-戻り値
+* 戻り値の型を定義する
 
 ```
 function getUserID(){
@@ -61,17 +65,13 @@ function getUserID(){
 function getUserID() : int {
 ```
 
-* and/&&は、&&に統一
+* プロパティの型を定義する
 
 ```
-if(a and b)
+public $workerService;
 ↓
-if(a && b)
+public WorkerService $workerService;
 ```
-
-* postリクエストに対してはFormRequestを利用します
-* 一般的な更新処理はPRG(Post/Redirect/Get)パターンを適用します
-
 
 ### 方針
 
@@ -93,8 +93,17 @@ MVCで以下の構造
 
 #### 実装方針
 
+* 一般的な更新処理はPRG(Post/Redirect/Get)パターンを適用する
 * 関数名にset/getを利用しない。ただし、インタフェースが明示的である場合のみ利用可能
+* and/&&は、&&に統一
 
+```
+if(a and b)
+↓
+if(a && b)
+```
+
+* postリクエストに対してはFormRequestを利用する
 * 関数/変数の名前は汎用的なものにしない
 
 ```
